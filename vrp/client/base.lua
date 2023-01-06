@@ -84,9 +84,26 @@ function Base:triggerRespawn()
   TriggerServerEvent("vRPcli:playerSpawned")
 end
 
+-- screen fade for teleport
+function Base:teleportFade(duration)
+  local ground = GetEntityHeightAboveGround(GetPlayerPed(-1))
+
+  DoScreenFadeOut(duration)
+  
+  if (ground <= 5.0) and (ground > 0.0) then
+	DoScreenFadeIn(duration * 2)
+  end
+  
+  -- force screen fadein
+  if not IsScreenFadedIn() and not IsScreenFadingIn() or (ground >= 800.0) then
+    DoScreenFadeIn(0)
+  end
+end
+
 -- heading: (optional) entity heading
 function Base:teleport(x,y,z,heading)
   local ped = GetPlayerPed(-1)
+
   SetEntityCoords(ped, x+0.0001, y+0.0001, z+0.0001, 1,0,0,1)
   if heading then SetEntityHeading(ped, heading) end
   vRP:triggerEvent("playerTeleport")
@@ -109,6 +126,12 @@ function Base:getPosition(entity)
   if not entity then entity = GetPlayerPed(-1) end
   local x,y,z = table.unpack(GetEntityCoords(entity,true))
   return x,y,z
+end
+
+function Base:getHeading(entity)
+  if not entity then entity = GetPlayerPed(-1) end
+  local x = GetEntityHeading(entity)
+  return x
 end
 
 -- return false if in exterior, true if inside a building
@@ -364,9 +387,11 @@ function Base.tunnel:removePlayer(player)
 end
 
 Base.tunnel.triggerRespawn = Base.triggerRespawn
+Base.tunnel.screenFade = Base.screenFade
 Base.tunnel.teleport = Base.teleport
 Base.tunnel.vehicleTeleport = Base.vehicleTeleport
 Base.tunnel.getPosition = Base.getPosition
+Base.tunnel.getHeading = Base.getHeading
 Base.tunnel.isInside = Base.isInside
 Base.tunnel.getSpeed = Base.getSpeed
 Base.tunnel.getNearestPlayers = Base.getNearestPlayers

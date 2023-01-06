@@ -42,13 +42,6 @@ function module(rsc, path)
   end
 end
 
-function restart_module(rsc, path)
-  local key = rsc.."/"..path
-  modules[key] = nil -- remove cached version of the module
-  return module(rsc, path) -- reload the module
-end
-
-
 -- Luaoop class
 
 local Luaoop = module("vrp", "lib/Luaoop")

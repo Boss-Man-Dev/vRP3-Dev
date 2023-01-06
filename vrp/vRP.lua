@@ -93,6 +93,13 @@ function vRP:__construct()
     self:save()
   end
   task_save()
+	
+	--print([[
+	--██    ██ ██████  ██████  
+	--██    ██ ██   ██ ██   ██ 
+	--██    ██ ██████  ██████  
+	-- ██  ██  ██   ██ ██      
+	--  ████   ██   ██ ██      ]])
 end
 
 -- register a DB driver
@@ -382,5 +389,12 @@ function vRP:onPlayerDied(source)
   local user = self.users_by_source[source]
   if user then self:triggerEvent("playerDeath", user) end
 end
+
+-- restart everything defined in cfg
+RegisterServerEvent("vRP:reload")
+AddEventHandler("vRP:reload", function()
+  cfg = module("vrp", "cfg/base")
+  for k,v in pairs(cfg.moduals) do StartResource(v) end
+end)
 
 return vRP

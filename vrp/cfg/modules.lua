@@ -8,6 +8,11 @@ local modules = {
   group = true,
   gui = true,
   map = true,
+  weather = true,
+  misc = true,
+  command = true,
+  player_state = true,
+  weapon = true
 }
 
 return modules

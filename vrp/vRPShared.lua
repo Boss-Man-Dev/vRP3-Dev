@@ -84,7 +84,6 @@ function vRPShared.Extension:__destruct()
   end
 end
 
-
 -- level: (optional) level, 0 by default
 function vRPShared.Extension:log(msg, level)
   vRP:log(msg, class.name(self), level)
@@ -165,6 +164,8 @@ function vRPShared:unregisterExtension(extension)
     self:error("Not an Extension class.")
   end
 end
+
+
 
 -- trigger event (with async call for each listener)
 function vRPShared:triggerEvent(name, ...)
